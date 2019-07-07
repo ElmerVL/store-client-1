@@ -91,14 +91,22 @@
           </mat-select>
         </td>
       </table>
-      <p>
-        <mat-form-field class="full-width">
-          <textarea matInput formControlName="text" placeholder="Tu mensaje" rows=12></textarea>
-        </mat-form-field>
-      </p>
-      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="messageForm.invalid">
-        Enviar
-      </button>
+      <ng-container *ngIf="messageForm.value['contacttype'] !== 'Chat'">
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput formControlName="text" placeholder="Tu mensaje" rows=12></textarea>
+          </mat-form-field>
+        </p>
+        <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="messageForm.invalid">
+          Enviar
+        </button>
+      </ng-container>
+      <ng-container *ngIf="messageForm.value['contacttype'] === 'Chat'">
+        <div *ngIf="userName === ''" class="alert alert-danger">
+          <strong>Inportante!</strong> Necesitas iniciar sesión para utilizar el chat.
+        </div>
+        <app-chat *ngIf="userName !== ''"></app-chat>
+      </ng-container>
     </form>
   </div>
 

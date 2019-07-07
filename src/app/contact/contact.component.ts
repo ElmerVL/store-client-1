@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ContactType, Message} from '../shared/message';
+import {LoginService} from '../services/login.service';
 
 @Component({
   selector: 'app-contact',
@@ -12,12 +13,22 @@ export class ContactComponent implements OnInit {
   messageForm: FormGroup;
   message: Message;
   contactType = ContactType;
+  public userName: string;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService
+  ) {
+    this.userName = '';
     this.createForm();
   }
 
   ngOnInit() {
+    this.loginService.getUserName().subscribe(value => {
+      if (value) {
+        this.userName = value;
+      }
+    });
   }
 
   createForm() {
